@@ -20,30 +20,65 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
     "0", "1") to value labels (e.g. "Female", "Male")
     '''
 
-    def export_spss_syntax(self):
+    def _export_spss_syntax(self):
         '''
-        Export the metadata for a single variable to the SPSS ".sps" syntax file 
-        format.
+        Export the SPSS ".sps" syntax file formatted variable label line and 
+        value label line (if any) that correspond to this :py:class:`VariableMetadata` 
+        object.
         
-        :returns: The syntax specification text.
+        :rtype: tuple(str, str)
+        '''
+                
+        variable_label_line= '/' + self.name + ' "' + self.label + '"'
+        
+        # There aren't always value labels to report.
+        if self.value_mappings == None:
+            value_label_line= None
+        else:        
+            value_label_line= '/' + self.name
+            for value_name, value_label in self.value_mappings.iteritems():
+                value_label_line+= ' ' + value_name + ' "' + value_label + '"'
+        
+        return variable_label_line, value_label_line
+
+    
+    @classmethod
+    def export_spss_syntax(cls, variable_metadata_list):
+        '''
+        Export a list of :py:class:`VariableMetadata` objects to the SPSS ".sps" 
+        syntax file format.
+        
+        :param list(:py:class:`VariableMetadata`) variable_metadata_list:
         :rtype: str
         '''
         
+        if len(variable_metadata_list) == 0:
+            return ''
+        
+        
+        variable_label_lines= list()
+        value_label_lines= list()
+        for var_metadata in variable_metadata_list:
+            var_label_line,  val_label_line= var_metadata._export_spss_syntax()
+            variable_label_lines.append(var_label_line)
+            if val_label_line != None:
+                value_label_lines.append(val_label_line)
+        
+        # Remove the prepending "/" from the first variable label line.
+        variable_label_lines[0]= variable_label_lines[0].split('/')[1]
+        
         syntax_string= 'VARIABLE LABELS\n'
+        for var_label_line in variable_label_lines:
+            syntax_string+= var_label_line + '\n'
         
-        variable_label_line= self.name + ' "' + self.label + '"'
-        syntax_string+= variable_label_line + '\n'
+        # There aren't always value labels to report.
+        if len(value_label_lines) != 0:
+            syntax_string+= '\nVALUE LABELS\n'
+            for val_label_line in value_label_lines:
+                syntax_string+= val_label_line + '\n'
         
-        syntax_string+= '\n'
-        syntax_string+= 'VALUE LABELS\n'
-        
-        value_label_line= '/' + self.name
-        for value_name, value_label in self.value_mappings.iteritems():
-            value_label_line+= ' ' + value_name + ' "' + value_label + '"'
-        syntax_string+= value_label_line
         
         return syntax_string
-
     
     @classmethod
     def import_json(cls, form_json):
@@ -73,7 +108,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
             else:
                 value_mappings= None
             
-            variable_metadata= VariableMetadata(var_name, var_label, value_mappings)
+            variable_metadata= cls(var_name, var_label, value_mappings)
             variable_metadata_list.append(variable_metadata)
         
         return variable_metadata_list
