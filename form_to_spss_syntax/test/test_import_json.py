@@ -31,7 +31,7 @@ class TestImportJson(unittest.TestCase):
     def test_import_single_variable(self):
         '''Test importing of a single-variable form.'''
         
-        variable_metadata= VariableMetadata.import_json(self.form_json)
+        variable_metadata= VariableMetadata.import_json(self.form_json)[0]
         
         var_name= self.form_dict['children'][0]['name']
         self.assertEquals(variable_metadata.name, var_name)
@@ -39,9 +39,9 @@ class TestImportJson(unittest.TestCase):
         var_label= self.form_dict['children'][0]['label']
         self.assertEquals(variable_metadata.label, var_label)
         
-        value_mapping_list= self.form_dict['children'][0]['children']
+        value_mappings_list= self.form_dict['children'][0]['children']
         value_mappings= dict()
-        for mapping in value_mapping_list:
+        for mapping in value_mappings_list:
             name= mapping['name']
             label= mapping['label']
             value_mappings[name]= label
