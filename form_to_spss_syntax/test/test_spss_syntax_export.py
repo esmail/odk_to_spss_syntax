@@ -8,7 +8,7 @@ import unittest
 
 from ..variable_metadata import VariableMetadata
 
-class TestSpssSyntaxExport(unittest.TestCase):
+class TestExportSpssSyntax(unittest.TestCase):
     '''
     Test exporting SPSS ".sps" syntax files from :py:class:`VariableMetadata` 
     objects.
@@ -48,7 +48,13 @@ class TestSpssSyntaxExport(unittest.TestCase):
 
     def assert_correct_export(self, variable_metadata_list):
         '''Reusable assertion for testing with various inputs.'''
+        
         syntax_text= VariableMetadata.export_spss_syntax(variable_metadata_list)
+        
+        if len(variable_metadata_list) == 0:
+            self.assertEquals(syntax_text, '')
+            return
+        
         # Surround the prepend and append newlines to the text to ease testing.
         syntax_text= '\n' + syntax_text + '\n'
         syntax_lines= (line for line in syntax_text.splitlines()) # Generator.
@@ -86,7 +92,10 @@ class TestSpssSyntaxExport(unittest.TestCase):
         
         expected_all_value_mappings= dict()
         for var_metadata in variable_metadata_list:
-            expected_all_value_mappings[var_metadata.name]= var_metadata.value_mappings
+            val_mappings= var_metadata.value_mappings
+            # Don't record anything if the variable has no value mappings.
+            if val_mappings != None:
+                expected_all_value_mappings[var_metadata.name]= var_metadata.value_mappings
         
         value_label_line= syntax_lines.next()
         exported_all_value_mappings= dict()
