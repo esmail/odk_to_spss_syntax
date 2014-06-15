@@ -97,11 +97,8 @@
 
         <span class="n">variable_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
     
-    <span class="n">test_case</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">VALUE LABELS</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">spss_syntax_text</span><span class="p">,</span> <span class="s">&#39;&quot;VALUE LABELS&quot; line not&#39;</span>
-                  <span class="o">+</span> <span class="s">&#39; found in exported syntax text.&#39;</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;VALUE LABELS&#39;</span><span class="p">:</span>
-        <span class="c"># Skip any intermediate lines.</span>
-        <span class="k">pass</span>
+    <span class="n">test_case</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">(),</span> <span class="s">&#39;VALUE LABELS&#39;</span><span class="p">,</span> <span class="s">&#39;&quot;VALUE LABELS&quot;&#39;</span>
+                           <span class="o">+</span> <span class="s">&#39;line not found after &quot;VARIABLE LABELS&quot; section.&#39;</span><span class="p">)</span>
     
     <span class="n">value_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
     <span class="n">all_value_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
