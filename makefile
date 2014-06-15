@@ -1,5 +1,13 @@
 SHELL := /bin/bash
-.PHONY: doc
+.PHONY: doc autodoc
+
+autodoc: .git/hooks/pre-commit doc
+
+.git/hooks/pre-commit: git_hook_pre-commit.sh
+	# Symlink the Git pre-commit hook into place
+	# TODO: Convert this ugly crap to a multi-liner that actually executes.
+	if [ ! -e .git/hooks/pre-commit ] ; then ln -s ../../git_hook_pre-commit.sh .git/hooks/pre-commit ; fi
+
 
 doc: doc/gh-pages doc/gh-pages/index.html
 
