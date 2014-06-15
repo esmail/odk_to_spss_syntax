@@ -47,3 +47,4 @@ docs/_build/
 *.json
 *.sps
 doc/gh-pages
+doc/source/*.rst
