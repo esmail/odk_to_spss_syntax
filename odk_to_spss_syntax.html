@@ -60,7 +60,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="odk_to_spss_syntax.test.html">odk_to_spss_syntax.test package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#module-odk_to_spss_syntax.test.test_export_from_json">odk_to_spss_syntax.test.test_export_from_json module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#odk-to-spss-syntax-test-test-export-from-json-module">odk_to_spss_syntax.test.test_export_from_json module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#module-odk_to_spss_syntax.test.test_export_spss_syntax">odk_to_spss_syntax.test.test_export_spss_syntax module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#module-odk_to_spss_syntax.test.test_import_json">odk_to_spss_syntax.test.test_import_json module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="odk_to_spss_syntax.test.html#module-odk_to_spss_syntax.test">Module contents</a></li>
@@ -102,9 +102,9 @@ provided JSON-formatted ODK Collect form.</p>
 <em class="property">class </em><tt class="descclassname">odk_to_spss_syntax.variable_metadata.</tt><tt class="descname">VariableMetadata</tt><a class="reference internal" href="_modules/odk_to_spss_syntax/variable_metadata.html#VariableMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.variable_metadata.VariableMetadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">odk_to_spss_syntax.variable_metadata._VariableMetadata</span></tt></p>
 <p>A <a class="reference internal" href="#odk_to_spss_syntax.variable_metadata.VariableMetadata" title="odk_to_spss_syntax.variable_metadata.VariableMetadata"><tt class="xref py py-class docutils literal"><span class="pre">VariableMetadata</span></tt></a> object contains the metadata about an 
-individual form variable. The class inherits from 
-<a class="reference external" href="http://docs.python.org/library/collections.html#collections.namedtuple" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">collections.namedtuple()</span></tt></a> (<tt class="xref py py-class docutils literal"><span class="pre">_VariableMetadata</span></tt>) that 
-handles object construction and the creation of immutable attribute accessors.</p>
+individual form variable. The class inherits from a semi-anonymous 
+<tt class="xref py py-func docutils literal"><span class="pre">namedtuple()</span></tt> (<tt class="xref py py-class docutils literal"><span class="pre">_VariableMetadata</span></tt>) that handles object 
+construction and the creation of immutable attribute accessors.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -112,12 +112,13 @@ handles object construction and the creation of immutable attribute accessors.</
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The encoded name of the variable (e.g. &#8220;a01&#8221;)</li>
 <li><strong>label</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The variable&#8217;s readable label (e.g. &#8220;What is your sex?&#8221;)</li>
-<li><strong>value_mappings</strong> (<a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary that maps encoded value names (e.g. &#8220;0&#8221;, &#8220;1&#8221;) to value labels (e.g. &#8220;Female&#8221;, &#8220;Male&#8221;)</li>
+<li><strong>value_mappings</strong> (<a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary that maps encoded value names (e.g.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p>&#8220;0&#8221;, &#8220;1&#8221;) to value labels (e.g. &#8220;Female&#8221;, &#8220;Male&#8221;)</p>
 <dl class="classmethod">
 <dt id="odk_to_spss_syntax.variable_metadata.VariableMetadata.export_spss_syntax">
 <em class="property">classmethod </em><tt class="descname">export_spss_syntax</tt><big>(</big><em>variable_metadata_list</em><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/variable_metadata.html#VariableMetadata.export_spss_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.variable_metadata.VariableMetadata.export_spss_syntax" title="Permalink to this definition">¶</a></dt>
