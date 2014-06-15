@@ -5,6 +5,10 @@
 
 Welcome to odk_to_spss_syntax's documentation!
 ==============================================
+.. image:: https://travis-ci.org/esmail/odk_to_spss_syntax.svg?branch=master
+   :target: https://travis-ci.org/esmail/odk_to_spss_syntax
+.. image:: https://coveralls.io/repos/esmail/odk_to_spss_syntax/badge.png?branch=master
+   :target: https://coveralls.io/r/esmail/odk_to_spss_syntax?branch=master
 
 Contents:
 
