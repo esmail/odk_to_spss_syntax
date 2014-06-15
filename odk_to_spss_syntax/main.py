@@ -1,9 +1,9 @@
 #!/usr/local/bin/python2.7
 # encoding: utf-8
 '''
-odk_to_spss_syntax.main -- Export a SPSS syntax file that corresponds to an ODK form.
+odk_to_spss_syntax -- Export a SPSS syntax file that corresponds to an ODK form.
 
-odk_to_spss_syntax.main is a Python package for parsing question metadata from an Open Data Kit form and exporting that metadata to an SPSS ".sps" syntax file
+odk_to_spss_syntax is a Python package for parsing question metadata from an Open Data Kit form and exporting that metadata to an SPSS ".sps" syntax file
 
 @author:     Esmail Fadae
 
@@ -47,8 +47,9 @@ def main(argv=None): # IGNORE:C0111
     from __init__ import __version__
     
     if argv is None:
-        argv = sys.argv
-
+        # Strip off the program name.
+        argv = sys.argv[1:]
+        
     program_name = os.path.basename(sys.argv[0])
     program_version = "v%s" % __version__
     program_build_date = str(__updated__)
@@ -61,11 +62,11 @@ def main(argv=None): # IGNORE:C0111
     program_shortdesc = __import__(module_name).__doc__.split("\n")[1]
     program_license = '''%s
 
-  Created by user_name on %s.
-  Copyright 2014 organization_name. All rights reserved.
+  Created by Esmail Fadae on %s.
+  Copyright 2014 Esmail Fadae. All rights reserved.
 
-  Licensed under the Apache License 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
+  Licensed under the GPL v3
+  http://www.gnu.org/copyleft/gpl.html
 
   Distributed on an "AS IS" basis without warranties
   or conditions of any kind, either express or implied.
