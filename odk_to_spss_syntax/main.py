@@ -20,7 +20,6 @@ import os
 import argparse
 
 from variable_metadata import VariableMetadata
-from __init__ import __version__
 
 
 __all__ = []
@@ -45,7 +44,8 @@ def from_json(json_text):
 
 def main(argv=None): # IGNORE:C0111
     '''Command line options.'''
-
+    from __init__ import __version__
+    
     if argv is None:
         argv = sys.argv
 

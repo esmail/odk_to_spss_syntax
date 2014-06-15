@@ -1,4 +1,4 @@
-from utils import from_json
+from main import from_json
 
 __version__= '0.1'
 
