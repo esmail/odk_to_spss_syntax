@@ -11,10 +11,10 @@ Subpackages
 Submodules
 ----------
 
-odk_to_spss_syntax.utils module
--------------------------------
+odk_to_spss_syntax.main module
+------------------------------
 
-.. automodule:: odk_to_spss_syntax.utils
+.. automodule:: odk_to_spss_syntax.main
     :members:
     :undoc-members:
     :show-inheritance:

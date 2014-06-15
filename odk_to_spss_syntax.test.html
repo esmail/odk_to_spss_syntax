@@ -55,8 +55,60 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="odk-to-spss-syntax-test-test-export-from-json-module">
-<h2>odk_to_spss_syntax.test.test_export_from_json module<a class="headerlink" href="#odk-to-spss-syntax-test-test-export-from-json-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-odk_to_spss_syntax.test.test_export_from_json">
+<span id="odk-to-spss-syntax-test-test-export-from-json-module"></span><h2>odk_to_spss_syntax.test.test_export_from_json module<a class="headerlink" href="#module-odk_to_spss_syntax.test.test_export_from_json" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 14, 2014</p>
+<p>&#64;author: esmail</p>
+<dl class="class">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestCli">
+<em class="property">class </em><tt class="descclassname">odk_to_spss_syntax.test.test_export_from_json.</tt><tt class="descname">TestCli</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestCli"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestCli" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson" title="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson"><tt class="xref py py-class docutils literal"><span class="pre">odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson</span></tt></a></p>
+<p>Test the command line interface building on functionality from <a class="reference internal" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson" title="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson"><tt class="xref py py-class docutils literal"><span class="pre">TestExportFromJson</span></tt></a>.</p>
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestCli.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestCli.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestCli.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify a temporary output file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestCli.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestCli.tearDown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestCli.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the temporary output file if it was created.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestCli.test_cli">
+<tt class="descname">test_cli</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestCli.test_cli"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestCli.test_cli" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the command line interface.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson">
+<em class="property">class </em><tt class="descclassname">odk_to_spss_syntax.test.test_export_from_json.</tt><tt class="descname">TestExportFromJson</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestExportFromJson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>Integration tests for the exporting of variable metadata from JSON-formatted 
+ODK Collect forms to SPSS &#8221;.sps&#8221; syntax files.</p>
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.assert_syntaxes_equivalent">
+<tt class="descname">assert_syntaxes_equivalent</tt><big>(</big><em>exported_spss_syntax</em>, <em>canonical_spss_syntax</em><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestExportFromJson.assert_syntaxes_equivalent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.assert_syntaxes_equivalent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reusable assertion to compare two SPSS syntax texts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestExportFromJson.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.test_export_from_json">
+<tt class="descname">test_export_from_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/odk_to_spss_syntax/test/test_export_from_json.html#TestExportFromJson.test_export_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odk_to_spss_syntax.test.test_export_from_json.TestExportFromJson.test_export_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a JSON-formatted ODK Collect form from file and test the generated SPSS syntax output against a canonical output example.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-odk_to_spss_syntax.test.test_export_spss_syntax">
 <span id="odk-to-spss-syntax-test-test-export-spss-syntax-module"></span><h2>odk_to_spss_syntax.test.test_export_spss_syntax module<a class="headerlink" href="#module-odk_to_spss_syntax.test.test_export_spss_syntax" title="Permalink to this headline">¶</a></h2>
@@ -157,7 +209,7 @@ objects.</p>
   <ul>
 <li><a class="reference internal" href="#">odk_to_spss_syntax.test package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#odk-to-spss-syntax-test-test-export-from-json-module">odk_to_spss_syntax.test.test_export_from_json module</a></li>
+<li><a class="reference internal" href="#module-odk_to_spss_syntax.test.test_export_from_json">odk_to_spss_syntax.test.test_export_from_json module</a></li>
 <li><a class="reference internal" href="#module-odk_to_spss_syntax.test.test_export_spss_syntax">odk_to_spss_syntax.test.test_export_spss_syntax module</a></li>
 <li><a class="reference internal" href="#module-odk_to_spss_syntax.test.test_import_json">odk_to_spss_syntax.test.test_import_json module</a></li>
 <li><a class="reference internal" href="#module-odk_to_spss_syntax.test">Module contents</a></li>
