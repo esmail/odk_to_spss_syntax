@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>odk_to_spss_syntax.test.test_export_spss_syntax &mdash; odk_to_spss_syntax 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="odk_to_spss_syntax 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">odk_to_spss_syntax 0.1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for odk_to_spss_syntax.test.test_export_spss_syntax</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 14, 2014</span>
+
+<span class="sd">@author: Esmail Fadae</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">..variable_metadata</span> <span class="kn">import</span> <span class="n">VariableMetadata</span>
+
+
+<div class="viewcode-block" id="parse_spss_syntax"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.parse_spss_syntax">[docs]</a><span class="k">def</span> <span class="nf">parse_spss_syntax</span><span class="p">(</span><span class="n">test_case</span><span class="p">,</span> <span class="n">spss_syntax_text</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check the formatting of the provided syntax text, checking for a variable </span>
+<span class="sd">    labels section and possibly a value labels section. Return any parsed </span>
+<span class="sd">    variable labels and value labels. </span>
+<span class="sd">    </span>
+<span class="sd">    :param :py:class:`unittest.TestCase` test_case: Making this an explicit </span>
+<span class="sd">    parameter allows this function to be called from any :py:class:`unittest.TestCase`</span>
+<span class="sd">    descendant.</span>
+<span class="sd">    :param str spss_syntax_text: The text of a SPSS &quot;.sps&quot; syntax file.</span>
+<span class="sd">    :return: A dictionary of parsed mappings from variable names to their </span>
+<span class="sd">    corresponding labels. Another dictionary with an entry for each variable </span>
+<span class="sd">    with parsed mappings from value names to value labels.  </span>
+<span class="sd">    :rtype: tuple(dict, dict)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c"># Surround the prepend and append newlines to the text to ease processing.</span>
+    <span class="n">spss_syntax_text</span><span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">spss_syntax_text</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+    <span class="n">syntax_lines</span><span class="o">=</span> <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">spss_syntax_text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span> <span class="c"># Generator.</span>
+    
+    <span class="c"># Default error message would print `spss_syntax_text` in its entirety...</span>
+    <span class="n">test_case</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">VARIABLE LABELS</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">spss_syntax_text</span><span class="p">,</span> <span class="s">&#39;&quot;VARIABLE LABELS&quot;&#39;</span>
+                  <span class="o">+</span> <span class="s">&#39; line not found in exported syntax text.&#39;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;VARIABLE LABELS&#39;</span><span class="p">:</span>
+        <span class="c"># Skip any preceding lines.</span>
+        <span class="k">pass</span>  
+    
+    <span class="n">variable_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="c"># Prepend a &#39;/&#39; to the first line so it can be handled in the same way </span>
+    <span class="c">#   as the rest.</span>
+    <span class="n">variable_label_line</span><span class="o">=</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">variable_label_line</span>
+    <span class="n">variable_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">variable_label_line</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">var_name</span><span class="o">=</span> <span class="n">variable_label_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">var_label</span><span class="o">=</span> <span class="n">variable_label_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">variable_mappings</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">=</span> <span class="n">var_label</span>
+
+        <span class="n">variable_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    
+    <span class="n">test_case</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">VALUE LABELS</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">spss_syntax_text</span><span class="p">,</span> <span class="s">&#39;&quot;VALUE LABELS&quot; line not&#39;</span>
+                  <span class="o">+</span> <span class="s">&#39; found in exported syntax text.&#39;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;VALUE LABELS&#39;</span><span class="p">:</span>
+        <span class="c"># Skip any intermediate lines.</span>
+        <span class="k">pass</span>
+    
+    <span class="n">value_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="n">all_value_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">value_label_line</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">var_name</span><span class="o">=</span> <span class="n">value_label_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">value_mappings_string</span><span class="o">=</span> <span class="n">value_label_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">var_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">value_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">value_mappings_string</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">val_name</span><span class="o">=</span> <span class="n">value_mappings_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">val_label</span><span class="o">=</span> <span class="n">value_mappings_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">value_mappings</span><span class="p">[</span><span class="n">val_name</span><span class="p">]</span><span class="o">=</span> <span class="n">val_label</span>
+            <span class="c"># Chomp off the portion just consumed and proceed.</span>
+            <span class="n">value_mappings_string</span><span class="o">=</span> <span class="n">value_mappings_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">val_label</span><span class="o">+</span><span class="s">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            
+        <span class="n">all_value_mappings</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">=</span> <span class="n">value_mappings</span>
+        <span class="n">value_label_line</span><span class="o">=</span> <span class="n">syntax_lines</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">variable_mappings</span><span class="p">,</span> <span class="n">all_value_mappings</span>
+
+</div>
+<div class="viewcode-block" id="TestExportSpssSyntax"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax">[docs]</a><span class="k">class</span> <span class="nc">TestExportSpssSyntax</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Test exporting SPSS &quot;.sps&quot; syntax files from :py:class:`VariableMetadata` </span>
+<span class="sd">    objects.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+<div class="viewcode-block" id="TestExportSpssSyntax.setUp"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a :py:class:`VariableMetadata` object for use in multiple tests.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordinary_variable_metadata</span><span class="o">=</span> <span class="n">VariableMetadata</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;var_name&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Variable label.&#39;</span>
+                                      <span class="p">,</span> <span class="n">value_mappings</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;0&#39;</span><span class="p">:</span><span class="s">&#39;True&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">:</span><span class="s">&#39;Banana&#39;</span><span class="p">})</span>
+
+</div>
+<div class="viewcode-block" id="TestExportSpssSyntax.test_export_zero_variables"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax.test_export_zero_variables">[docs]</a>    <span class="k">def</span> <span class="nf">test_export_zero_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test exporting zero variables (to increase test coverage).&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_correct_export</span><span class="p">([])</span>
+        
+        </div>
+<div class="viewcode-block" id="TestExportSpssSyntax.test_export_single_variable"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax.test_export_single_variable">[docs]</a>    <span class="k">def</span> <span class="nf">test_export_single_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test exporting a single variable&#39;s metadata.&#39;&#39;&#39;</span>
+        <span class="n">variable_metadata_list</span><span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ordinary_variable_metadata</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_correct_export</span><span class="p">(</span><span class="n">variable_metadata_list</span><span class="p">)</span>
+         
+</div>
+<div class="viewcode-block" id="TestExportSpssSyntax.test_export_multiple_variables"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax.test_export_multiple_variables">[docs]</a>    <span class="k">def</span> <span class="nf">test_export_multiple_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test exporting the metadata of multiple variables.&#39;&#39;&#39;</span>
+        <span class="n">another_variable_metadata</span><span class="o">=</span> <span class="n">VariableMetadata</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;var2&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Way cool label.&#39;</span>
+                                                    <span class="p">,</span> <span class="n">value_mappings</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;you_say&#39;</span><span class="p">:</span><span class="s">&#39;goodbye&#39;</span><span class="p">,</span> <span class="s">&#39;i_say&#39;</span><span class="p">:</span><span class="s">&#39;hello&#39;</span><span class="p">})</span>
+        <span class="n">no_val_label_metadata</span><span class="o">=</span> <span class="n">VariableMetadata</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;v3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Boring label.&#39;</span>
+                                      <span class="p">,</span> <span class="n">value_mappings</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">variable_metadata_list</span><span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ordinary_variable_metadata</span>
+                                 <span class="p">,</span> <span class="n">another_variable_metadata</span>
+                                 <span class="p">,</span> <span class="n">no_val_label_metadata</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_correct_export</span><span class="p">(</span><span class="n">variable_metadata_list</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="TestExportSpssSyntax.assert_correct_export"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_spss_syntax.TestExportSpssSyntax.assert_correct_export">[docs]</a>    <span class="k">def</span> <span class="nf">assert_correct_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_metadata_list</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reusable assertion for testing with various inputs.&#39;&#39;&#39;</span>
+        
+        <span class="n">exported_syntax_text</span><span class="o">=</span> <span class="n">VariableMetadata</span><span class="o">.</span><span class="n">export_spss_syntax</span><span class="p">(</span><span class="n">variable_metadata_list</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variable_metadata_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">exported_syntax_text</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">exported_variable_mappings</span><span class="p">,</span> <span class="n">exported_all_value_mappings</span><span class="o">=</span> <span class="n">parse_spss_syntax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exported_syntax_text</span><span class="p">)</span>
+        
+        <span class="n">expected_variable_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">expected_all_value_mappings</span><span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">var_metadata</span> <span class="ow">in</span> <span class="n">variable_metadata_list</span><span class="p">:</span>
+            <span class="n">expected_variable_mappings</span><span class="p">[</span><span class="n">var_metadata</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">=</span> <span class="n">var_metadata</span><span class="o">.</span><span class="n">label</span>
+            
+            <span class="n">val_mappings</span><span class="o">=</span> <span class="n">var_metadata</span><span class="o">.</span><span class="n">value_mappings</span>
+            <span class="c"># Don&#39;t record anything if the variable has no value mappings.</span>
+            <span class="k">if</span> <span class="n">val_mappings</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">expected_all_value_mappings</span><span class="p">[</span><span class="n">var_metadata</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">=</span> <span class="n">var_metadata</span><span class="o">.</span><span class="n">value_mappings</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertDictEqual</span><span class="p">(</span><span class="n">exported_variable_mappings</span><span class="p">,</span> <span class="n">expected_variable_mappings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertDictEqual</span><span class="p">(</span><span class="n">exported_all_value_mappings</span><span class="p">,</span> <span class="n">expected_all_value_mappings</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">odk_to_spss_syntax 0.1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Esmail Fadae.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
