@@ -58,7 +58,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="n">_VariableMetadata</span><span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;_VariableMetadata&#39;</span><span class="p">,</span> <span class="s">&#39;name, label, value_mappings&#39;</span><span class="p">)</span>
-<div class="viewcode-block" id="VariableMetadata"><a class="viewcode-back" href="../../odk_to_spss_syntax.html#odk_to_spss_syntax.variable_metadata.VariableMetadata">[docs]</a><span class="k">class</span> <span class="nc">VariableMetadata</span><span class="p">():</span>
+<div class="viewcode-block" id="VariableMetadata"><a class="viewcode-back" href="../../odk_to_spss_syntax.html#odk_to_spss_syntax.variable_metadata.VariableMetadata">[docs]</a><span class="k">class</span> <span class="nc">VariableMetadata</span><span class="p">(</span><span class="n">_VariableMetadata</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    A :py:class:`VariableMetadata` object contains the metadata about an </span>
 <span class="sd">    individual form variable. The class inherits from </span>
