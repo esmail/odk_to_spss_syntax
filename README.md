@@ -5,9 +5,15 @@ odk_to_spss_syntax [![Build Status](https://travis-ci.org/esmail/odk_to_spss_syn
  
  To install:
 ```bash
-git clone https://github.com/esmail/odk_to_spss_syntax.git
+git clone --depth 1 https://github.com/esmail/odk_to_spss_syntax.git
 cd odk_to_spss_syntax
+make env && source env/bin/activate # If you don't want to install system-wide.
 pip install -e .
 ```
+ 
+ For execution help:
+```
+odk_to_spss_syntax -h
+```
 
- Sphinx-generated autodocs [here](https://esmail.github.io/odk_to_spss_syntax/).
+ Documentation [here](https://esmail.github.io/odk_to_spss_syntax/).

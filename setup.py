@@ -92,7 +92,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'odk_to_spss_syntax=odk_to_spss_syntax:main',
+            'odk_to_spss_syntax=odk_to_spss_syntax:main.main',
         ],
     },
 )
