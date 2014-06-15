@@ -1,5 +1,8 @@
 SHELL := /bin/bash
-.PHONY: doc autodoc
+.PHONY: doc autodoc test
+
+test: env
+	nosetests --with-cov --cov-config .coveragerc
 
 autodoc: .git/hooks/pre-commit doc
 
@@ -22,7 +25,7 @@ doc/gh-pages/index.html: env doc/source doc/source/*.rst doc/source/conf.py
 
 env:
 	virtualenv env
-	source env/bin/activate && pip install sphinx
+	source env/bin/activate && pip install sphinx nose-cov
 
 doc/source: odk_to_spss_syntax/*.py odk_to_spss_syntax/test/*.py
 	source env/bin/activate && sphinx-apidoc --force --no-toc -o doc/source/ odk_to_spss_syntax
