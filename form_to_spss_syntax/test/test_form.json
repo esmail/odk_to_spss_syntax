@@ -1,0 +1,224 @@
+{
+    "default_language": "default",
+    "id_string": "chaque_matin",
+    "children": [
+        {
+            "children": [
+                {
+                    "name": "anonymized1",
+                    "label": "Anonymized label"
+                },
+                {
+                    "name": "anonymized2",
+                    "label": "Anonymized label."
+                }
+            ],
+            "name": "M01",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M01 Nom de l'enquêteur",
+            "type": "select one"
+        },
+        {
+            "name": "M02",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M02 Numéro de la tablette",
+            "type": "integer"
+        },
+        {
+            "control": {
+                "appearance": "no-calendar"
+            },
+            "name": "M03",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M03 Date",
+            "type": "date"
+        },
+        {
+            "children": [
+                {
+                    "name": "1",
+                    "label": "Goma"
+                },
+                {
+                    "name": "2",
+                    "label": "Masisi"
+                },
+                {
+                    "name": "3",
+                    "label": "Bukavu"
+                },
+                {
+                    "name": "4",
+                    "label": "Kalehe"
+                }
+            ],
+            "name": "M05",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M05 Votre lieu actuel",
+            "type": "select one"
+        },
+        {
+            "name": "M06",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M06 Quartier ou vous devez travailler aujourd'hui",
+            "type": "text"
+        },
+        {
+            "name": "M07",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M07 Avenue la plus proche",
+            "type": "text"
+        },
+        {
+            "name": "M08",
+            "label": "M08 Capturer les coordonnées GPS",
+            "type": "geopoint"
+        },
+        {
+            "children": [
+                {
+                    "name": "1",
+                    "label": "Très bien"
+                },
+                {
+                    "name": "2",
+                    "label": "Bien"
+                },
+                {
+                    "name": "3",
+                    "label": "Moyen"
+                },
+                {
+                    "name": "4",
+                    "label": "Mal"
+                },
+                {
+                    "name": "5",
+                    "label": "Très mal"
+                }
+            ],
+            "name": "M09",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M09 Comment se passe la collecte de donées?",
+            "type": "select one"
+        },
+        {
+            "name": "M10",
+            "bind": {
+                "relevant": "${M09} = '4' or ${M09} = '5'",
+                "required": "yes"
+            },
+            "label": "M10 Ca ne se passe pas trop bien? Nous sommes la pour aider. Avez-vous contacté votre superviseur ou quelqu'un d'autre? Decrivez-ci dessous les problemes principaux.",
+            "type": "text"
+        },
+        {
+            "children": [
+                {
+                    "name": "1",
+                    "label": "Plein - bon travail"
+                },
+                {
+                    "name": "2",
+                    "label": "Environ 3/4 - bon travail, il faudra recharger ce soir!"
+                },
+                {
+                    "name": "3",
+                    "label": "50% - bon travail, mais verifiez d'etat de la batterie avant chaque interview. Il faudra absolument recharger ce soir"
+                },
+                {
+                    "name": "4",
+                    "label": "1/4 - vous pourrez faire une interview au plus. verifiez le niveau durant l'interview et termine lorsqu'un point d'exclamation apparait"
+                },
+                {
+                    "name": "5",
+                    "label": "Moins d'1/4 ou '!' - sauvegarder votre travail et rechargez immediatement."
+                }
+            ],
+            "name": "M11",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "M11 Passons au travail de la journee. Quel est le niveau de la batterie de la tablette?",
+            "type": "select one"
+        },
+        {
+            "name": "M12",
+            "label": "M12 Merci, bonne continuation",
+            "type": "note"
+        },
+        {
+            "name": "start",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "Start",
+            "type": "start"
+        },
+        {
+            "name": "end",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "End",
+            "type": "end"
+        },
+        {
+            "name": "today",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "Today",
+            "type": "today"
+        },
+        {
+            "name": "deviceid",
+            "bind": {
+                "required": "yes"
+            },
+            "label": "DeviceID",
+            "type": "deviceid"
+        },
+        {
+            "name": "username",
+            "label": "Username",
+            "type": "username"
+        },
+        {
+            "control": {
+                "bodyless": true
+            },
+            "children": [
+                {
+                    "name": "instanceID",
+                    "bind": {
+                        "readonly": "true()",
+                        "calculate": "concat('uuid:', uuid())"
+                    },
+                    "type": "calculate"
+                }
+            ],
+            "name": "meta",
+            "type": "group"
+        }
+    ],
+    "style": "theme-grid",
+    "version": "v2",
+    "type": "survey",
+    "name": "Chaque_Matin_v2",
+    "sms_keyword": "chaque_matin",
+    "title": "Chaque Matin"
+}
