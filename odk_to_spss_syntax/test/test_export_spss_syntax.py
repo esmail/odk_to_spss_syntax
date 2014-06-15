@@ -48,11 +48,8 @@ def parse_spss_syntax(test_case, spss_syntax_text):
 
         variable_label_line= syntax_lines.next()
     
-    test_case.assertIn('\nVALUE LABELS\n', spss_syntax_text, '"VALUE LABELS" line not'
-                  + ' found in exported syntax text.')
-    while syntax_lines.next() != 'VALUE LABELS':
-        # Skip any intermediate lines.
-        pass
+    test_case.assertEquals(syntax_lines.next(), 'VALUE LABELS', '"VALUE LABELS"'
+                           + 'line not found after "VARIABLE LABELS" section.')
     
     value_label_line= syntax_lines.next()
     all_value_mappings= dict()

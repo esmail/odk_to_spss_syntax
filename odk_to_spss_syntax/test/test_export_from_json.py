@@ -40,8 +40,3 @@ class TestExportFromJson(unittest.TestCase):
         
         self.assertDictEqual(exported_variable_mappings, expected_variable_mappings)
         self.assertDictEqual(exported_all_value_mappings, expected_all_value_mappings)
-
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()

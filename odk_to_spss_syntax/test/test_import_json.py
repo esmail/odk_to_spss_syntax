@@ -47,7 +47,3 @@ class TestImportJson(unittest.TestCase):
             value_mappings[name]= label
         self.assertDictEqual(variable_metadata.value_mappings, value_mappings)
 
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()
