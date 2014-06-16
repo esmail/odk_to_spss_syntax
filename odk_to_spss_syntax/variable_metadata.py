@@ -1,7 +1,7 @@
 '''
 Created on Jun 13, 2014
 
-@author: Esmail Fadae
+.. moduleauthor:: Esmail Fadae <efadae@hotmail.com>
 '''
 
 from collections import namedtuple
@@ -17,16 +17,14 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
     
     :param str name: The encoded name of the variable (e.g. "a01")
     :param str label: The variable's readable label (e.g. "What is your sex?")
-    :param dict value_mappings: A dictionary that maps encoded value names (e.g.  
-    "0", "1") to value labels (e.g. "Female", "Male")
+    :param dict value_mappings: A dictionary that maps encoded value names (e.g. "0", "1") to value labels (e.g. "Female", "Male")
     '''
 
-    def _export_spss_syntax(self):
+    def _to_spss_syntax(self):
         '''
-        Export the SPSS ".sps" syntax file formatted variable label line and 
-        value label line (if any) that correspond to this :py:class:`VariableMetadata` 
-        object.
-        
+        Output the syntax file lines that correspond to this object. 
+
+        :returns: SPSS-syntax-file-formatted strings for use in a syntax file's "VARIABLE LABELS" and (possibly) "VALUE LABELS" sections.
         :rtype: tuple(str, str)
         '''
         
@@ -56,11 +54,13 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
     @classmethod
     def export_spss_syntax(cls, variable_metadata_list):
         '''
-        Export a list of :py:class:`VariableMetadata` objects to the SPSS ".sps" 
-        syntax file format.
+        Export the supplied :py:class:`VariableMetadata` objects to a string for 
+        use in an SPSS syntax file.
         
-        :param list(:py:class:`VariableMetadata`) variable_metadata_list:
-        :rtype: str
+        :param variable_metadata_list: The metadata to export.
+        :type variable_metadata_list: list(:py:class:`VariableMetadata`)
+        :returns: An SPSS-syntax-file-formatted string.
+        :rtype: :py:class:`String`
         '''
         
         if len(variable_metadata_list) == 0:
@@ -70,7 +70,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         variable_label_lines= list()
         value_label_lines= list()
         for var_metadata in variable_metadata_list:
-            var_label_line,  val_label_line= var_metadata._export_spss_syntax()
+            var_label_line,  val_label_line= var_metadata._to_spss_syntax()
             if var_label_line != None:
                 variable_label_lines.append(var_label_line)
             if val_label_line != None:
@@ -93,29 +93,32 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         return syntax_string
     
     @classmethod
-    def import_json(cls, form_json):
+    def import_json(cls, odk_json_text):
         '''
-        Create :py:class:`VariableMetadata` objects from a simple JSON form (no 
-        groups).
+        Parse question metadata (e.g. names, labels, value mappings) from the 
+        supplied JSON-formatted ODK form text.
         
-        :param str form_json: The JSON-formatted text of the form being imported.
+        :param str odk_json_text: The JSON-formatted text of the form being imported.
+        :returns: :py:class:`VariableMetadata` objects that correspond to the JSON form's questions.
         :rtype: list(:py:class:`VariableMetadata`) 
         '''
         
-        form_dict= json.loads(form_json)
+        form_dict= json.loads(odk_json_text)
         return cls._import(form_dict)
     
     @classmethod
-    def _import(cls, form_dict):
+    def _import(cls, odk_form_dict):
         '''
-        Where the actual importing work occurs. Takes a form as a dictionary and 
+        Where the actual importing work occurs. Takes an ODK form pre-parsed 
+        into :py:class:`dict` and generates the appropriate metadata.
         returns the appropriate :py:class:`VariableMetadata` objects.
         
-        :param dict form_dict: The ODK Collect form parsed into a :py:class:`dict`.
+        :param dict odk_form_dict: The ODK Collect form parsed into a :py:class:`dict`.
+        :returns: :py:class:`VariableMetadata` objects that correspond to the form's questions.
         :rtype: list(:py:class:`VariableMetadata`)
         '''
         
-        form_variables= form_dict['children']
+        form_variables= odk_form_dict['children']
         variable_metadata_list= list()
         for form_var in form_variables:
             if form_var['type'] == 'group':

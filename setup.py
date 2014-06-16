@@ -11,8 +11,8 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the relevant file
 # with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 #     long_description = f.read()
-description= odk_to_spss_syntax.main.__doc__.split("\n")[1]
-long_description= odk_to_spss_syntax.main.__doc__.split("\n")[2]
+description= __import__('odk_to_spss_syntax').__doc__.split("\n")[1]
+long_description= __import__('odk_to_spss_syntax').__doc__.split("\n")[2]
 
 setup(
     name='odk_to_spss_syntax',

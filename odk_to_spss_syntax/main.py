@@ -1,18 +1,12 @@
-#!/usr/local/bin/python2.7
+#!/usr/bin/env python2.7
 # encoding: utf-8
 '''
-odk_to_spss_syntax -- Export a SPSS syntax file that corresponds to an ODK form.
+Created on Jun 13, 2014
 
-odk_to_spss_syntax is a Python package for parsing question metadata from an Open Data Kit form and exporting that metadata to an SPSS ".sps" syntax file
+Provides the outward interface of the package for ingesting input and producing 
+output.
 
-@author:     Esmail Fadae
-
-@copyright:  2014 Esmail Fadae. All rights reserved.
-
-@license:    GPL v3
-
-@contact:    efadae@hotmail.com
-@deffield    updated: 2014-06-15
+.. moduleauthor:: Esmail Fadae <efadae@hotmail.com>
 '''
 
 import sys
@@ -30,8 +24,7 @@ __updated__ = '2014-06-15'
 
 def from_json(json_text):
     '''
-    Create an SPSS ".sps" syntax file based on form variable metadata from the 
-    provided JSON-formatted ODK Collect form.
+    Extract the question metadata 
     
     :param str json_text:
     '''
@@ -54,12 +47,7 @@ def main(argv=None): # IGNORE:C0111
     program_version = "v%s" % __version__
     program_build_date = str(__updated__)
     program_version_message = '%%(prog)s %s (%s)' % (program_version, program_build_date)
-    # FIXME: Hideous.
-    module_path= os.path.realpath(__file__)
-    module_dir= os.path.dirname(module_path)
-    module_name= os.path.splitext(os.path.basename(module_path))[0]
-    sys.path.insert(0, os.path.abspath(module_dir))
-    program_shortdesc = __import__(module_name).__doc__.split("\n")[1]
+    program_shortdesc = __import__('odk_to_spss_syntax').__doc__.split("\n")[1]
     program_license = '''%s
 
   Created by Esmail Fadae on %s.

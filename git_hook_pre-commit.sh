@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# See makefile for prerequisite action of creating a Git "workdir".
+
 echo "Automatically generating and pushing documentation."
 
 # First make sure the documentation is up to date with the remote.

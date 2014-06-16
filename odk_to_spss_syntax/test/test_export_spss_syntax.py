@@ -15,13 +15,9 @@ def parse_spss_syntax(test_case, spss_syntax_text):
     labels section and possibly a value labels section. Return any parsed 
     variable labels and value labels. 
     
-    :param :py:class:`unittest.TestCase` test_case: Making this an explicit 
-    parameter allows this function to be called from any :py:class:`unittest.TestCase`
-    descendant.
+    :param :py:class:`unittest.TestCase` test_case: Making this an explicit parameter allows this function to be called from any :py:class:`unittest.TestCase` descendant.
     :param str spss_syntax_text: The text of a SPSS ".sps" syntax file.
-    :return: A dictionary of parsed mappings from variable names to their 
-    corresponding labels. Another dictionary with an entry for each variable 
-    with parsed mappings from value names to value labels.  
+    :return: A dictionary of parsed mappings from variable names to their corresponding labels. Another dictionary with an entry for each variable with parsed mappings from value names to value labels.  
     :rtype: tuple(dict, dict)
     '''
     
