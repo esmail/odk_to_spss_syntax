@@ -11,9 +11,10 @@ make env && source env/bin/activate # If you don't want to install system-wide.
 pip install -e .
 ```
  
- For execution help:
+ To execute:
 ```bash
-odk_to_spss_syntax -h
+odk_to_spss_syntax -h # Show execution help.
+odk_to_spss_syntax my_odk_form.json my_odk_form_syntax.sps
 ```
 
  You can also import and use the package from other Python code as follows:
