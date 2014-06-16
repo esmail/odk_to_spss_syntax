@@ -50,7 +50,7 @@
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Created on Jun 13, 2014</span>
 
-<span class="sd">@author: Esmail Fadae</span>
+<span class="sd">.. moduleauthor:: Esmail Fadae &lt;efadae@hotmail.com&gt;</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
@@ -66,16 +66,14 @@
 <span class="sd">    </span>
 <span class="sd">    :param str name: The encoded name of the variable (e.g. &quot;a01&quot;)</span>
 <span class="sd">    :param str label: The variable&#39;s readable label (e.g. &quot;What is your sex?&quot;)</span>
-<span class="sd">    :param dict value_mappings: A dictionary that maps encoded value names (e.g.  </span>
-<span class="sd">    &quot;0&quot;, &quot;1&quot;) to value labels (e.g. &quot;Female&quot;, &quot;Male&quot;)</span>
+<span class="sd">    :param dict value_mappings: A dictionary that maps encoded value names (e.g. &quot;0&quot;, &quot;1&quot;) to value labels (e.g. &quot;Female&quot;, &quot;Male&quot;)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_export_spss_syntax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_spss_syntax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Export the SPSS &quot;.sps&quot; syntax file formatted variable label line and </span>
-<span class="sd">        value label line (if any) that correspond to this :py:class:`VariableMetadata` </span>
-<span class="sd">        object.</span>
-<span class="sd">        </span>
+<span class="sd">        Output the syntax file lines that correspond to this object. </span>
+
+<span class="sd">        :returns: SPSS-syntax-file-formatted strings for use in a syntax file&#39;s &quot;VARIABLE LABELS&quot; and (possibly) &quot;VALUE LABELS&quot; sections.</span>
 <span class="sd">        :rtype: tuple(str, str)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -105,11 +103,13 @@
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="VariableMetadata.export_spss_syntax"><a class="viewcode-back" href="../../odk_to_spss_syntax.html#odk_to_spss_syntax.variable_metadata.VariableMetadata.export_spss_syntax">[docs]</a>    <span class="k">def</span> <span class="nf">export_spss_syntax</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">variable_metadata_list</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Export a list of :py:class:`VariableMetadata` objects to the SPSS &quot;.sps&quot; </span>
-<span class="sd">        syntax file format.</span>
+<span class="sd">        Export the supplied :py:class:`VariableMetadata` objects to a string for </span>
+<span class="sd">        use in an SPSS syntax file.</span>
 <span class="sd">        </span>
-<span class="sd">        :param list(:py:class:`VariableMetadata`) variable_metadata_list:</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :param variable_metadata_list: The metadata to export.</span>
+<span class="sd">        :type variable_metadata_list: list(:py:class:`VariableMetadata`)</span>
+<span class="sd">        :returns: An SPSS-syntax-file-formatted string.</span>
+<span class="sd">        :rtype: :py:class:`String`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variable_metadata_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -119,7 +119,7 @@
         <span class="n">variable_label_lines</span><span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">value_label_lines</span><span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">var_metadata</span> <span class="ow">in</span> <span class="n">variable_metadata_list</span><span class="p">:</span>
-            <span class="n">var_label_line</span><span class="p">,</span>  <span class="n">val_label_line</span><span class="o">=</span> <span class="n">var_metadata</span><span class="o">.</span><span class="n">_export_spss_syntax</span><span class="p">()</span>
+            <span class="n">var_label_line</span><span class="p">,</span>  <span class="n">val_label_line</span><span class="o">=</span> <span class="n">var_metadata</span><span class="o">.</span><span class="n">_to_spss_syntax</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">var_label_line</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">variable_label_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_label_line</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">val_label_line</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
@@ -142,29 +142,32 @@
         <span class="k">return</span> <span class="n">syntax_string</span>
     </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VariableMetadata.import_json"><a class="viewcode-back" href="../../odk_to_spss_syntax.html#odk_to_spss_syntax.variable_metadata.VariableMetadata.import_json">[docs]</a>    <span class="k">def</span> <span class="nf">import_json</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">form_json</span><span class="p">):</span>
+<div class="viewcode-block" id="VariableMetadata.import_json"><a class="viewcode-back" href="../../odk_to_spss_syntax.html#odk_to_spss_syntax.variable_metadata.VariableMetadata.import_json">[docs]</a>    <span class="k">def</span> <span class="nf">import_json</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">odk_json_text</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Create :py:class:`VariableMetadata` objects from a simple JSON form (no </span>
-<span class="sd">        groups).</span>
+<span class="sd">        Parse question metadata (e.g. names, labels, value mappings) from the </span>
+<span class="sd">        supplied JSON-formatted ODK form text.</span>
 <span class="sd">        </span>
-<span class="sd">        :param str form_json: The JSON-formatted text of the form being imported.</span>
+<span class="sd">        :param str odk_json_text: The JSON-formatted text of the form being imported.</span>
+<span class="sd">        :returns: :py:class:`VariableMetadata` objects that correspond to the JSON form&#39;s questions.</span>
 <span class="sd">        :rtype: list(:py:class:`VariableMetadata`) </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
-        <span class="n">form_dict</span><span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">form_json</span><span class="p">)</span>
+        <span class="n">form_dict</span><span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">odk_json_text</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_import</span><span class="p">(</span><span class="n">form_dict</span><span class="p">)</span>
     </div>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_import</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">form_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_import</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">odk_form_dict</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Where the actual importing work occurs. Takes a form as a dictionary and </span>
+<span class="sd">        Where the actual importing work occurs. Takes an ODK form pre-parsed </span>
+<span class="sd">        into :py:class:`dict` and generates the appropriate metadata.</span>
 <span class="sd">        returns the appropriate :py:class:`VariableMetadata` objects.</span>
 <span class="sd">        </span>
-<span class="sd">        :param dict form_dict: The ODK Collect form parsed into a :py:class:`dict`.</span>
+<span class="sd">        :param dict odk_form_dict: The ODK Collect form parsed into a :py:class:`dict`.</span>
+<span class="sd">        :returns: :py:class:`VariableMetadata` objects that correspond to the form&#39;s questions.</span>
 <span class="sd">        :rtype: list(:py:class:`VariableMetadata`)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
-        <span class="n">form_variables</span><span class="o">=</span> <span class="n">form_dict</span><span class="p">[</span><span class="s">&#39;children&#39;</span><span class="p">]</span>
+        <span class="n">form_variables</span><span class="o">=</span> <span class="n">odk_form_dict</span><span class="p">[</span><span class="s">&#39;children&#39;</span><span class="p">]</span>
         <span class="n">variable_metadata_list</span><span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">form_var</span> <span class="ow">in</span> <span class="n">form_variables</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">form_var</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;group&#39;</span><span class="p">:</span>
