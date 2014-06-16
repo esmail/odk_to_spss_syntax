@@ -37,7 +37,7 @@ def from_json(json_text):
 
 def main(argv=None): # IGNORE:C0111
     '''Command line options.'''
-    from __init__ import __version__
+    from odk_to_spss_syntax import __version__
     
     if argv is None:
         # Strip off the program name.

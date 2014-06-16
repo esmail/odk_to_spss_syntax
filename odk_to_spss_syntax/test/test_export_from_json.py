@@ -60,6 +60,7 @@ class TestCli(TestExportFromJson):
         '''Specify a temporary output file.'''
         super(TestCli, self).setUp()
         self.exported_syntax_file= os.path.join(self.module_dir, 'exported.sps')
+        self.cli_input= '--json ' + self.test_form_path + ' ' + self.exported_syntax_file
     
     def tearDown(self):
         '''Delete the temporary output file if it was created.'''
@@ -69,19 +70,25 @@ class TestCli(TestExportFromJson):
             
     def test_cli(self):
         '''Test the command line interface.'''
-                
-        exported_syntax_file= os.path.join(self.module_dir, 'exported.sps')
-        argv= '--json ' + self.test_form_path + ' ' + exported_syntax_file
-        argv= argv.split(' ')
+        argv= self.cli_input.split(' ')
+        self.assert_cli_functionality(argv)
+        
+    def test_cli_sys_argv(self):
+        '''Test the command line interface using a mocked `sys.argv`.'''
+        sys_argv= ['program_name']
+        sys_argv.extend(self.cli_input.split(' '))
+        sys.argv= sys_argv
+        
+        self.assert_cli_functionality(None)
+        
+    def assert_cli_functionality(self, argv):
+        '''Reusable test of the command line interface.'''
         main(argv)
         
-        with open(exported_syntax_file, 'r') as f:
+        with open(self.exported_syntax_file, 'r') as f:
             exported_spss_syntax= f.read()
         
         with open(self.test_syntax_path, 'r') as f:
             canonical_spss_syntax= f.read()
         
         self.assert_syntaxes_equivalent(exported_spss_syntax, canonical_spss_syntax)
-
-
-    
