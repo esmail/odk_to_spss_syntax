@@ -109,6 +109,7 @@
         <span class="sd">&#39;&#39;&#39;Specify a temporary output file.&#39;&#39;&#39;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TestCli</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exported_syntax_file</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module_dir</span><span class="p">,</span> <span class="s">&#39;exported.sps&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cli_input</span><span class="o">=</span> <span class="s">&#39;--json &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_form_path</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">exported_syntax_file</span>
     </div>
 <div class="viewcode-block" id="TestCli.tearDown"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_from_json.TestCli.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Delete the temporary output file if it was created.&#39;&#39;&#39;</span>
@@ -118,22 +119,28 @@
             </div>
 <div class="viewcode-block" id="TestCli.test_cli"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_from_json.TestCli.test_cli">[docs]</a>    <span class="k">def</span> <span class="nf">test_cli</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Test the command line interface.&#39;&#39;&#39;</span>
-                
-        <span class="n">exported_syntax_file</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module_dir</span><span class="p">,</span> <span class="s">&#39;exported.sps&#39;</span><span class="p">)</span>
-        <span class="n">argv</span><span class="o">=</span> <span class="s">&#39;--json &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_form_path</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">exported_syntax_file</span>
-        <span class="n">argv</span><span class="o">=</span> <span class="n">argv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">argv</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_cli_functionality</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="TestCli.test_cli_sys_argv"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_from_json.TestCli.test_cli_sys_argv">[docs]</a>    <span class="k">def</span> <span class="nf">test_cli_sys_argv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Test the command line interface using a mocked `sys.argv`.&#39;&#39;&#39;</span>
+        <span class="n">sys_argv</span><span class="o">=</span> <span class="p">[</span><span class="s">&#39;program_name&#39;</span><span class="p">]</span>
+        <span class="n">sys_argv</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">=</span> <span class="n">sys_argv</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_cli_functionality</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="TestCli.assert_cli_functionality"><a class="viewcode-back" href="../../../odk_to_spss_syntax.test.html#odk_to_spss_syntax.test.test_export_from_json.TestCli.assert_cli_functionality">[docs]</a>    <span class="k">def</span> <span class="nf">assert_cli_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argv</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Reusable test of the command line interface.&#39;&#39;&#39;</span>
         <span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
         
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">exported_syntax_file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exported_syntax_file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">exported_spss_syntax</span><span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_syntax_path</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">canonical_spss_syntax</span><span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_syntaxes_equivalent</span><span class="p">(</span><span class="n">exported_spss_syntax</span><span class="p">,</span> <span class="n">canonical_spss_syntax</span><span class="p">)</span>
-
-
-    </div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_syntaxes_equivalent</span><span class="p">(</span><span class="n">exported_spss_syntax</span><span class="p">,</span> <span class="n">canonical_spss_syntax</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
