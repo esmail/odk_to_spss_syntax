@@ -16,7 +16,7 @@ from test_export_spss_syntax import parse_spss_syntax
 class TestExportFromJson(unittest.TestCase):
     '''
     Integration tests for the exporting of variable metadata from JSON-formatted 
-    ODK Collect forms to SPSS ".sps" syntax files.
+    ODK forms to SPSS ".sps" syntax files.
     '''
     
     def setUp(self):
@@ -28,7 +28,7 @@ class TestExportFromJson(unittest.TestCase):
 
     def test_export_from_json(self):
         '''
-        Load a JSON-formatted ODK Collect form from file and test the generated SPSS syntax output against a canonical output example.
+        Load a JSON-formatted ODK form from file and test the generated SPSS syntax output against a canonical output example.
         '''
         
         with open(self.test_form_path, 'r') as f:

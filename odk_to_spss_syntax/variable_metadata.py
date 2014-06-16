@@ -113,7 +113,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         into :py:class:`dict` and generates the appropriate metadata.
         returns the appropriate :py:class:`VariableMetadata` objects.
         
-        :param dict odk_form_dict: The ODK Collect form parsed into a :py:class:`dict`.
+        :param dict odk_form_dict: The ODK form parsed into a :py:class:`dict`.
         :returns: :py:class:`VariableMetadata` objects that correspond to the form's questions.
         :rtype: list(:py:class:`VariableMetadata`)
         '''
