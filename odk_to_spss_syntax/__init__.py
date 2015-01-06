@@ -15,6 +15,7 @@ odk_to_spss_syntax is a Python package for extracting metadata about the questio
 '''
 
 from main import from_json
+from main import from_dicts
 
 
 __version__= '0.1'

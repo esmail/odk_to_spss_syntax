@@ -3,8 +3,7 @@
 '''
 Created on Jun 13, 2014
 
-Provides the outward interface of the package for ingesting input and producing 
-output.
+Provides the outward interface of the package.
 
 .. moduleauthor:: Esmail Fadae <efadae@hotmail.com>
 '''
@@ -21,11 +20,14 @@ __all__ = []
 __date__ = '2014-06-15'
 __updated__ = '2014-06-15'
 
+def from_dicts(variable_labels_dict, value_labels_dict):
+    variable_metadata_list= VariableMetadata.import_dicts(variable_labels_dict, value_labels_dict)
+    spss_syntax_string= VariableMetadata.export_spss_syntax(variable_metadata_list)
+    
+    return spss_syntax_string
 
 def from_json(json_text):
     '''
-    Extract the question metadata 
-    
     :param str json_text:
     '''
     

@@ -50,7 +50,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         
         return variable_label_line, value_label_line
 
-    
+
     @classmethod
     def export_spss_syntax(cls, variable_metadata_list):
         '''
@@ -65,8 +65,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         
         if len(variable_metadata_list) == 0:
             return ''
-        
-        
+
         variable_label_lines= list()
         value_label_lines= list()
         for var_metadata in variable_metadata_list:
@@ -91,7 +90,20 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         
         
         return syntax_string
-    
+
+
+    @classmethod
+    def import_dicts(cls, variable_labels_dict, value_labels_dict):
+        variable_metadata_list= list()
+        
+        # TODO: This doesn't address the (rare) cases of labeled values whose corresponding variable lacks a label.
+        for variable_name, variable_label in variable_labels_dict:
+            value_mappings= value_labels_dict.get(variable_name)
+            variable_metadata_list.append(cls(variable_name, variable_label, value_mappings))
+        
+        return variable_metadata_list
+
+
     @classmethod
     def import_json(cls, odk_json_text):
         '''
@@ -105,7 +117,8 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         
         form_dict= json.loads(odk_json_text)
         return cls._import(form_dict)
-    
+
+
     @classmethod
     def _import(cls, odk_form_dict):
         '''
@@ -156,4 +169,3 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
                 variable_metadata_list.append(calculated_variable_metadata)
 
         return variable_metadata_list
-    
