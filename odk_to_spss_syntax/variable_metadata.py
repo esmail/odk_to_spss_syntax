@@ -97,7 +97,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         variable_metadata_list= list()
         
         # TODO: This doesn't address the (rare) cases of labeled values whose corresponding variable lacks a label.
-        for variable_name, variable_label in variable_labels_dict:
+        for variable_name, variable_label in variable_labels_dict.iteritems():
             value_mappings= value_labels_dict.get(variable_name)
             variable_metadata_list.append(cls(variable_name, variable_label, value_mappings))
         
