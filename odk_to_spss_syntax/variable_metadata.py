@@ -30,22 +30,36 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
 
         # TODO: Should labels be truncated to 116 characters?
 
-        # Variable labels aren't always specified.
-        variable_label_line= '/' + self.name + ' "'
-        if self.label == None:
-            variable_label_line+= self.name + '"'
+        if self.label is None:
+            variable_label_line= None
         else:
-            variable_label_line+= self.label + '"'
+            variable_label_line= '/' + self.name
+            
+            # Repeat any double quote characters found in the label (starting from the end).
+            variable_label= self.label
+            double_quote_indices= [match.start() for match in re.finditer('"', variable_label)]
+            double_quote_indices.reverse()
+            for quote_index in double_quote_indices:
+                variable_label= variable_label[:quote_index] + '"' + variable_label[quote_index:]
+
+            variable_label_line+= ' "' + variable_label + '"'
 
         # There aren't always value labels to report.
-        if self.value_mappings == None:
+        if self.value_mappings is None:
             value_label_line= None
-        else:        
+        else:
             value_label_line= '/' + self.name
+            
             sorted_value_names= self.value_mappings.keys()
             sorted_value_names.sort()
             for value_name in sorted_value_names:
+                # Repeat any double quote characters found in the label (starting from the end).
                 value_label= self.value_mappings[value_name]
+                double_quote_indices= [match.start() for match in re.finditer('"', value_label)]
+                double_quote_indices.reverse()
+                for quote_index in double_quote_indices:
+                    value_label= value_label[:quote_index] + '"' + value_label[quote_index:]
+    
                 value_label_line+= ' ' + value_name + ' "' + value_label + '"'
 
         return variable_label_line, value_label_line
@@ -76,9 +90,9 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
                 value_label_lines.append(val_label_line)
 
         # Remove the prepending "/" from the first variable label and value label (if any) lines.
-        variable_label_lines[0]= variable_label_lines[0].split('/')[1]
+        variable_label_lines[0]= variable_label_lines[0][1:]
         if value_label_lines:
-            value_label_lines[0]= value_label_lines[0].split('/')[1]
+            value_label_lines[0]= value_label_lines[0][1:]
 
         syntax_string= 'VARIABLE LABELS'
         for var_label_line in variable_label_lines:
