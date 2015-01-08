@@ -27,16 +27,16 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         :returns: SPSS-syntax-file-formatted strings for use in a syntax file's "VARIABLE LABELS" and (possibly) "VALUE LABELS" sections.
         :rtype: tuple(str, str)
         '''
-        
+
         # TODO: Should labels be truncated to 116 characters?
-        
+
         # Variable labels aren't always specified.
         variable_label_line= '/' + self.name + ' "'
         if self.label == None:
             variable_label_line+= self.name + '"'
         else:
             variable_label_line+= self.label + '"'
-        
+
         # There aren't always value labels to report.
         if self.value_mappings == None:
             value_label_line= None
@@ -47,7 +47,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
             for value_name in sorted_value_names:
                 value_label= self.value_mappings[value_name]
                 value_label_line+= ' ' + value_name + ' "' + value_label + '"'
-        
+
         return variable_label_line, value_label_line
 
 
@@ -56,13 +56,13 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
         '''
         Export the supplied :py:class:`VariableMetadata` objects to a string for 
         use in an SPSS syntax file.
-        
+
         :param variable_metadata_list: The metadata to export.
         :type variable_metadata_list: list(:py:class:`VariableMetadata`)
         :returns: An SPSS-syntax-file-formatted string.
         :rtype: :py:class:`String`
         '''
-        
+
         if len(variable_metadata_list) == 0:
             return ''
 
@@ -74,21 +74,24 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
                 variable_label_lines.append(var_label_line)
             if val_label_line != None:
                 value_label_lines.append(val_label_line)
-        
-        # Remove the prepending "/" from the first variable label line.
+
+        # Remove the prepending "/" from the first variable label and value label (if any) lines.
         variable_label_lines[0]= variable_label_lines[0].split('/')[1]
-        
-        syntax_string= 'VARIABLE LABELS\n'
+        if value_label_lines:
+            value_label_lines[0]= value_label_lines[0].split('/')[1]
+
+        syntax_string= 'VARIABLE LABELS'
         for var_label_line in variable_label_lines:
-            syntax_string+= var_label_line + '\n'
-        
+            syntax_string+= '\n' + var_label_line
+        syntax_string+= '.\n'
+
         # There aren't always value labels to report.
         if len(value_label_lines) != 0:
-            syntax_string+= '\nVALUE LABELS\n'
+            syntax_string+= '\nVALUE LABELS'
             for val_label_line in value_label_lines:
-                syntax_string+= val_label_line + '\n'
-        
-        
+                syntax_string+= '\n' + val_label_line
+            syntax_string+= '.\n'
+
         return syntax_string
 
 
