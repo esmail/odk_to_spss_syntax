@@ -36,11 +36,7 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
             variable_label_line= '/' + self.name
             
             # Repeat any double quote characters found in the label (starting from the end).
-            variable_label= self.label
-            double_quote_indices= [match.start() for match in re.finditer('"', variable_label)]
-            double_quote_indices.reverse()
-            for quote_index in double_quote_indices:
-                variable_label= variable_label[:quote_index] + '"' + variable_label[quote_index:]
+            variable_label= self.label.replace('"', '""')
 
             variable_label_line+= ' "' + variable_label + '"'
 
@@ -53,12 +49,8 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
             sorted_value_names= self.value_mappings.keys()
             sorted_value_names.sort()
             for value_name in sorted_value_names:
-                # Repeat any double quote characters found in the label (starting from the end).
-                value_label= self.value_mappings[value_name]
-                double_quote_indices= [match.start() for match in re.finditer('"', value_label)]
-                double_quote_indices.reverse()
-                for quote_index in double_quote_indices:
-                    value_label= value_label[:quote_index] + '"' + value_label[quote_index:]
+                # Repeat any double quote characters found in the label.
+                value_label= self.value_mappings[value_name].replace('"', '""')
     
                 value_label_line+= ' ' + value_name + ' "' + value_label + '"'
 
@@ -112,12 +104,19 @@ class VariableMetadata(namedtuple('_VariableMetadata', 'name, label, value_mappi
     @classmethod
     def import_dicts(cls, variable_labels_dict, value_labels_dict):
         variable_metadata_list= list()
-        
-        # TODO: This doesn't address the (rare) cases of labeled values whose corresponding variable lacks a label.
+
+        if variable_labels_dict is None:
+            variable_labels_dict= dict()
+        if value_labels_dict is None:
+            value_labels_dict= dict()
+
         for variable_name, variable_label in variable_labels_dict.iteritems():
-            value_mappings= value_labels_dict.get(variable_name)
-            variable_metadata_list.append(cls(variable_name, variable_label, value_mappings))
-        
+            variable_metadata_list.append(cls(variable_name, variable_label, value_labels_dict.get(variable_name)))
+
+        unlabeled_variables= set(value_labels_dict.keys()).difference(set(variable_labels_dict.keys()))
+        for variable_name in unlabeled_variables:
+            variable_metadata_list.append(cls(variable_name, None, value_labels_dict.get(variable_name)))
+
         return variable_metadata_list
 
 
